@@ -26,6 +26,7 @@ while True:
   dVdz = jacobian(V, z)
   dVdx = torch.tensordot(dVdz, dzdx, dims=1)
   with torch.no_grad():
+    # not record updating x in graph
     x -= lr*dVdx
   x_list.append(x.detach().numpy())
   
@@ -33,6 +34,6 @@ while True:
   if (iter >= iter_max) or (dVdx.norm() < tol):
     break
   
-print('iter:      ',iter)
+print('iter:      ', iter)
 print('dvdx.norm: ', dVdx.norm())
-print('x:         ',x)
+print('x:         ', x)
